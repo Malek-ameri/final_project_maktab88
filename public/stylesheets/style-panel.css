@@ -1,0 +1,35 @@
+.dashbord{
+    width: 230px;
+    background-color: #0F1A34;
+    height: 100vh;
+}
+
+ul{
+    list-style-type: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+li:hover{
+    background-color: #243358;
+}
+
+#save-butt{
+    display: none;
+}
+
+/* #home-panel {
+    display: blo;
+} */
+
+#information{
+    display: none;
+}
+
+
+#update-password-panel{
+    display: none;
+}
+
+#delete-acount{
+    display: none;
+}
