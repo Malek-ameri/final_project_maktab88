@@ -14,4 +14,8 @@ const panelPage = async (req, res, next) => {
   res.render("user-panel");
 };
 
-module.exports = { homePage, signupPage, loginPage, panelPage };
+const forgetPassworPage = async (req, res, next) => {
+  res.render("forgetPassword-page");
+};
+
+module.exports = { homePage, signupPage, loginPage, panelPage, forgetPassworPage };
