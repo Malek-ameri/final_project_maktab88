@@ -11,12 +11,20 @@ const signupSchemaValidat = joi.object({
     phonenumber:joi.string().required().pattern(phoneNumberRegex).trim().error(Error('Your phonenumber is invalid. Please inter valid Iran phonenumber')),
     email:joi.string().required().email().lowercase().trim(),
     gender: joi.string().trim().valid('male','female'),
-})
+});
 
 const loginSchemaValidat = joi.object({
     username:joi.string().required(),
     password: joi.string().required()
-})
+});
 
+const checkEmailSchema = joi.object({
+    email:joi.string().required().email().lowercase().trim()
+});
 
-module.exports = { signupSchemaValidat, loginSchemaValidat }
+const verfiySchema = joi.object({
+    email:joi.string().required().email().lowercase().trim(),
+    otpCode:joi.string().min(5).max(5)
+});
+
+module.exports = { signupSchemaValidat, loginSchemaValidat, checkEmailSchema, verfiySchema }

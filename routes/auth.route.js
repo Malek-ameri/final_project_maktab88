@@ -1,13 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const asyncHandler = require('../utils/async.handler');
-const { createUser, login, sendOtpCode } = require('../controller/auth.controller');
-const { validator} = require('../middleware/validation/validator')
-const {signupSchemaValidat, loginSchemaValidat} = require('../middleware/validation/auth.validat');
+const asyncHandler = require("../utils/async.handler");
+const {createUser,login,sendOtpCode, checkOtpCode} = require("../controller/auth.controller");
+const { validator } = require("../middleware/validation/validator");
+const {signupSchemaValidat, loginSchemaValidat, checkEmailSchema, verfiySchema} = require("../middleware/validation/auth.validat");
 
-router.post('/signup',validator(signupSchemaValidat), asyncHandler(createUser));
-router.post('/login',validator(loginSchemaValidat), asyncHandler(login));
-router.post('/forget', asyncHandler(sendOtpCode));
+router.post("/signup",validator(signupSchemaValidat),asyncHandler(createUser));
+router.post("/login", validator(loginSchemaValidat), asyncHandler(login));
+router.post("/send-otp-code", validator(checkEmailSchema),asyncHandler(sendOtpCode));
+router.post("/verfiy", validator(verfiySchema),asyncHandler(checkOtpCode));
 
 module.exports = router;
 

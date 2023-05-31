@@ -12,6 +12,9 @@ const routesHandler = require('./routes/routes');
 
 const app = express();
 connectToDatabase()
+require('./database/redis.config');
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,31 +1,20 @@
-const loginBut = document.getElementById("login-but");
-const username = document.getElementById("user-name");
-const password = document.getElementById("password");
+const email = document.getElementById("email");
+const sendBtn = document.getElementById("send-but");
 const error = document.getElementById("err");
 
-const Validation = (value) => {
-  error.innerText = "";
-  value = value ?? "";
-  if (value.trim() === "") return [false];
-  return [true, "ok"];
-};
 
-loginBut.addEventListener("click", async () => {
+
+sendBtn.addEventListener("click", async () => {
   error.innerText = "";
 
-  const [usernameFlags] = Validation(username.value);
-  const [passwordFlags] = Validation(password.value);
-
-  if (!usernameFlags || !passwordFlags) {
-    return (error.innerText = "Please fill in all the fields");
-  }
+  const [emailFlag, emailMessage] = Validation(email.value);
+  if (!emailFlag) return error.innerText = emailMessage;
 
   const newData = {
-    username: username.value,
-    password: password.value,
+    email: email.value,
   };
 
-  const response = await fetch('http://localhost:3000/auth/login',{
+  const response = await fetch('http://localhost:3000/auth/send-otp-code',{
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
@@ -39,8 +28,15 @@ loginBut.addEventListener("click", async () => {
     return  error.innerText = data.message;
   }
 
-  if(data.statusCode === 200 ){
+  if(data.statusCode === 201 ){
     location.href = 'http://localhost:3000/'
   }
 
 });
+
+const Validation = (email) => {
+  error.innerText = "";
+  if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+    return [false, "please inter valid email"];
+  return [true, "ok"];
+}

@@ -76,6 +76,13 @@ const UserSchema = Schema({
     enum: ["admin", "blogger"],
     default: "blogger",
   },
+  otp:{
+    type:Object,
+    default:{
+      code:0,
+      expiresIn:0
+    }
+  }
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {
