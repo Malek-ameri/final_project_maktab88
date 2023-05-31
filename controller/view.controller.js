@@ -18,4 +18,8 @@ const forgetPassworPage = async (req, res, next) => {
   res.render("forgetPassword-page");
 };
 
-module.exports = { homePage, signupPage, loginPage, panelPage, forgetPassworPage };
+const verfiyPage = async (req, res, next) => {
+  res.render("verifyOtpCode");
+};
+
+module.exports = { homePage, signupPage, loginPage, panelPage, forgetPassworPage,verfiyPage };

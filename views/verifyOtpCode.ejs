@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/verfiy.opt.css" />
+    <title>forgetpassword</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form">
+        <form class="signUp">
+
+
+          <div class="formGroup">
+            <input
+              name="username"
+              type="email"
+              id="email"
+              placeholder="email"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="formGroup">
+            <input
+              name="code"
+              type="text"
+              id="code"
+              placeholder="code"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="formGroup">
+            <button id="send-but" type="button" class="btn2">send</button>
+          </div>
+
+          <div style="text-align: center"><p id="err" class="error"></p></div>
+
+        </form>
+      </div>
+    </div>
+    <script src="/javascripts/verfiy.js"></script>
+  </body>
+</html>

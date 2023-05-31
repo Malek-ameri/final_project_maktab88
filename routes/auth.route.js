@@ -8,7 +8,7 @@ const {signupSchemaValidat, loginSchemaValidat, checkEmailSchema, verfiySchema} 
 router.post("/signup",validator(signupSchemaValidat),asyncHandler(createUser));
 router.post("/login", validator(loginSchemaValidat), asyncHandler(login));
 router.post("/send-otp-code", validator(checkEmailSchema),asyncHandler(sendOtpCode));
-router.post("/verfiy", validator(verfiySchema),asyncHandler(checkOtpCode));
+router.post("/verify", validator(verfiySchema),asyncHandler(checkOtpCode));
 
 module.exports = router;
 

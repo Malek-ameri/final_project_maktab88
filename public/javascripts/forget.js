@@ -22,14 +22,13 @@ sendBtn.addEventListener("click", async () => {
     body:JSON.stringify(newData)
   })
   const data = await response.json()
-  console.log(data)
 
   if(data.status === 400){
     return  error.innerText = data.message;
   }
 
   if(data.statusCode === 201 ){
-    location.href = 'http://localhost:3000/'
+    location.href = 'http://localhost:3000/verfiy'
   }
 
 });
