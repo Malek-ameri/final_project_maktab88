@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const createError = require("http-errors");
 const User = require("../model/user.model");
-const sendEmail = require("../utils/send.email");
+const mailer = require("../utils/send.email");
 const redisClient = require("../database/redis.config");
 
 const createUser = async (req, res, next) => {
@@ -119,7 +119,7 @@ const login = async (req, res, next) => {
   });
 };
 
-const sendOtpCode = async (req, res, next) => {
+const sendEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const emailExists = await User.findOne({ email });
@@ -132,7 +132,7 @@ const sendOtpCode = async (req, res, next) => {
   await emailExists.save({ validateBeforeSave: false });
 
   // try {
-  //   await sendEmail(email, otpCode);
+  //   await mailer(email, otpCode);
   // } catch (error) {
   //   return next(
   //     createError(500, "we cont send opt code.Try again in a few minutes")
@@ -142,52 +142,60 @@ const sendOtpCode = async (req, res, next) => {
   res.status(200).json({
     statusCode: 201,
     status: "success",
-    message: "otp code sent",
+    message: "sent email",
   });
 };
 
-const checkOtpCode = async (req, res, next) => {
-  const { email, otpCode } = req.body;
+const chengePassword = async (req, res, next) => {
+  const { password } = req.body;
+  const {email = '',otpCode = ''} = req.query
 
   const findUser = await User.findOne({ email });
   if(!findUser){
-    return next(createError(400,'email incorrect'));
+    return next(createError(400,'link incorrect'));
   }
   
   if( findUser.otp.code !== otpCode){
-    return next(createError(400, 'code is not correct'));
+    return next(createError(400, 'link is not correct'));
   }
 
   const now = new Date().getTime()
   if( now > findUser.otp.expiresIn){
-    return next(createError(400, 'code has expired'))
+    return next(createError(400, 'link has expired'))
   }
 
-  const accessToken = await promisify(jwt.sign)(
-    { id: findUser._id },
-    process.env.ACCESS_TOKEN,
-    { expiresIn: process.env.EXPIRESIN_ACCESS_TOKEN }
-  );
-  const refreshToken = await promisify(jwt.sign)(
-    { id: findUser._id },
-    process.env.REFRESH_TOKEN,
-    { expiresIn: process.env.EXPIRESIN_REFRESH_TOKEN }
-  );
+  findUser.password = password;
+  await findUser.save();
+
+  res.status(200).json({
+    statusCode: 200,
+    status: "success",
+    message:'password cheneged'
+  });
+
+};
+
+const loginOut = async (req, res, next) => {
+
+  const {id} = req.body
+  const findUser = await User.findById(id)
+
+  if (!findUser) {
+    return next(createError(400, "id not exists"));
+  }
 
   const userId = findUser._id.toString();
   await redisClient.SETEX(
     userId,
     +process.env.EXPIRES_DATA_IN_REDIS,
-    refreshToken
+    "null"
   );
 
   res.status(200).json({
     statusCode: 200,
     status: "success",
-    accessToken,
-    refreshToken
+    data: 'user logout',
   });
-
 };
 
-module.exports = { createUser, login, sendOtpCode, checkOtpCode };
+module.exports = { createUser, login, sendEmail, chengePassword, loginOut };

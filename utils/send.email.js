@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function sendEmail(email, optCode) {
+async function mailer(email, optCode) {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -15,7 +15,7 @@ async function sendEmail(email, optCode) {
     to: email,
     subject: "Subject",
     text: optCode,
-    html:`<p style="font-size: 20px;"><b>${optCode}</b></p>`
+    html:`<p style="font-size: 20px;"><b>http://localhost:3000/auth/verify?email=${email}&otp=${optCode}</b></p>`
   }
 
   const info = await transporter.sendMail(mailOptions);
@@ -25,4 +25,4 @@ async function sendEmail(email, optCode) {
 
 
 
-module.exports = sendEmail
+module.exports = mailer
